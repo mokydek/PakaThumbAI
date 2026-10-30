@@ -1,0 +1,5 @@
+pakathumb:
+  base_path: ..
+  is_default: true
+  checkpoints: models/checkpoints/
+  loras: models/loras/

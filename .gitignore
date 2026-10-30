@@ -1,0 +1,12 @@
+app/
+models/checkpoints/*
+models/loras/*
+models/tokenizer/
+outputs/*
+dataset/*
+!models/checkpoints/.gitkeep
+!models/loras/.gitkeep
+!outputs/.gitkeep
+!dataset/.gitkeep
+*.npz
+__pycache__/

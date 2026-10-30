@@ -1,0 +1,32 @@
+# LoRA training settings tuned for RTX 3050 (4-8 GB VRAM).
+pretrained_model_name_or_path = "models/checkpoints/DreamShaper_8_pruned.safetensors"
+dataset_config = "config/dataset.toml"
+tokenizer_cache_dir = "models/tokenizer"
+
+output_dir = "models/loras"
+output_name = "pakathumb"
+save_model_as = "safetensors"
+save_precision = "fp16"
+save_every_n_epochs = 2
+
+network_module = "networks.lora"
+network_dim = 32
+network_alpha = 16
+
+optimizer_type = "AdamW8bit"
+learning_rate = 1e-4
+unet_lr = 1e-4
+text_encoder_lr = 5e-5
+lr_scheduler = "cosine"
+max_train_epochs = 10
+train_batch_size = 1
+
+mixed_precision = "fp16"
+gradient_checkpointing = true
+sdpa = true
+cache_latents = true
+cache_latents_to_disk = true
+max_data_loader_n_workers = 0
+noise_offset = 0.05
+min_snr_gamma = 5
+seed = 42

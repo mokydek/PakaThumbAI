@@ -1,0 +1,20 @@
+# Datasets for LoRA training (kohya sd-scripts).
+# Put your images (png/jpg/webp) into the dataset folder.
+# A caption is optional: image.png + image.txt with the same name.
+# If there is no .txt, "pakathumb thumbnail" is used as the caption.
+
+[general]
+enable_bucket = true
+resolution = 512
+min_bucket_reso = 256
+max_bucket_reso = 1024
+bucket_reso_steps = 64
+caption_extension = ".txt"
+
+[[datasets]]
+batch_size = 1
+
+  [[datasets.subsets]]
+  image_dir = "dataset"
+  class_tokens = "pakathumb thumbnail"
+  num_repeats = 10

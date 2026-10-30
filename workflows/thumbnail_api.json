@@ -1,0 +1,103 @@
+{
+  "1": {
+    "class_type": "CheckpointLoaderSimple",
+    "_meta": {"title": "Base model"},
+    "inputs": {"ckpt_name": "DreamShaper_8_pruned.safetensors"}
+  },
+  "2": {
+    "class_type": "LoraLoader",
+    "_meta": {"title": "Thumbnail LoRA"},
+    "inputs": {
+      "model": ["1", 0],
+      "clip": ["1", 1],
+      "lora_name": "pakathumb.safetensors",
+      "strength_model": 0.8,
+      "strength_clip": 0.8
+    }
+  },
+  "3": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {"title": "Positive prompt"},
+    "inputs": {
+      "clip": ["2", 1],
+      "text": "pakathumb thumbnail, youtube thumbnail, vibrant saturated colors, high contrast, dramatic lighting, bold composition, sharp focus, highly detailed, 3d render"
+    }
+  },
+  "4": {
+    "class_type": "CLIPTextEncode",
+    "_meta": {"title": "Negative prompt"},
+    "inputs": {
+      "clip": ["2", 1],
+      "text": "lowres, blurry, jpeg artifacts, watermark, text, letters, signature, logo, deformed, bad anatomy, extra fingers, ugly, dull colors, nsfw, nude, gore, blood"
+    }
+  },
+  "5": {
+    "class_type": "EmptyLatentImage",
+    "_meta": {"title": "Base size"},
+    "inputs": {"width": 768, "height": 432, "batch_size": 1}
+  },
+  "6": {
+    "class_type": "KSampler",
+    "_meta": {"title": "Pass 1"},
+    "inputs": {
+      "model": ["2", 0],
+      "positive": ["3", 0],
+      "negative": ["4", 0],
+      "latent_image": ["5", 0],
+      "seed": 0,
+      "steps": 25,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 1.0
+    }
+  },
+  "7": {
+    "class_type": "LatentUpscale",
+    "_meta": {"title": "Hires size"},
+    "inputs": {
+      "samples": ["6", 0],
+      "upscale_method": "nearest-exact",
+      "width": 1280,
+      "height": 720,
+      "crop": "disabled"
+    }
+  },
+  "8": {
+    "class_type": "KSampler",
+    "_meta": {"title": "Pass 2 (hires)"},
+    "inputs": {
+      "model": ["2", 0],
+      "positive": ["3", 0],
+      "negative": ["4", 0],
+      "latent_image": ["7", 0],
+      "seed": 0,
+      "steps": 15,
+      "cfg": 6.5,
+      "sampler_name": "dpmpp_2m",
+      "scheduler": "karras",
+      "denoise": 0.5
+    }
+  },
+  "9": {
+    "class_type": "VAEDecode",
+    "_meta": {"title": "Decode"},
+    "inputs": {"samples": ["8", 0], "vae": ["1", 2]}
+  },
+  "10": {
+    "class_type": "ImageScale",
+    "_meta": {"title": "Final size"},
+    "inputs": {
+      "image": ["9", 0],
+      "upscale_method": "lanczos",
+      "width": 1280,
+      "height": 720,
+      "crop": "disabled"
+    }
+  },
+  "11": {
+    "class_type": "SaveImage",
+    "_meta": {"title": "Save"},
+    "inputs": {"images": ["10", 0], "filename_prefix": "thumb"}
+  }
+}
