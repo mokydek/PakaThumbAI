@@ -33,6 +33,19 @@ if ($comfy.Count -gt 0) {
     $comfy | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
 }
 
+# зависшее прошлое обучение (например после сна ПК) держит видеопамять - закрываем
+$stale = @(Get-CimInstance Win32_Process -Filter "Name='python.exe'" |
+    Where-Object { $_.CommandLine -like "*train_network.py*" })
+if ($stale.Count -gt 0) {
+    Write-Host "   Закрываю прошлое незавершённое обучение"
+    $stale | ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
+    Start-Sleep -Seconds 3
+}
+
+# пока идёт обучение, Windows не уходит в сон по бездействию (сбрасывается, когда окно закроется)
+Add-Type -Namespace PakaThumb -Name Power -MemberDefinition '[DllImport("kernel32.dll")] public static extern uint SetThreadExecutionState(uint esFlags);'
+[PakaThumb.Power]::SetThreadExecutionState([uint32]"0x80000001") | Out-Null
+
 $extra = @()
 $gpu = Get-Gpu
 if ($gpu.VramMb -lt 6000) {
