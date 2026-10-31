@@ -1,6 +1,7 @@
 ﻿# PakaThumbAI - обучение своей LoRA на картинках из папки dataset
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$LogName = "train"
 . "$PSScriptRoot\common.ps1"
 Set-Location $Root
 
@@ -33,9 +34,15 @@ $steps = $images.Count * 10 * 10
 Step ("Обучение: {0} картинок, ~{1} шагов, {2} ({3} МБ)" -f $images.Count, $steps, $gpu.Name, $gpu.VramMb)
 Write-Host "   Результат: models\loras\pakathumb.safetensors (промежуточные - каждые 2 эпохи)"
 
-& $KohyaPy (Join-Path $KohyaDir "train_network.py") --config_file (Join-Path $Root "config\train_lora.toml") @extra @args
-Check "обучение LoRA"
+# вывод обучения идёт и в окно, и в app\train.log
+$ErrorActionPreference = "Continue"
+& $KohyaPy (Join-Path $KohyaDir "train_network.py") --config_file (Join-Path $Root "config\train_lora.toml") @extra @args 2>&1 |
+    ForEach-Object { "$_" } | Tee-Object -FilePath $LogFile -Append
+$code = $LASTEXITCODE
+$ErrorActionPreference = "Stop"
+if ($code -ne 0) { Fail "обучение LoRA (подробности в app\train.log)" }
 
 Write-Host ""
 Write-Host "Готово! LoRA сохранена в models\loras\pakathumb.safetensors" -ForegroundColor Green
+Log "TRAIN OK"
 Write-Host "generate.bat теперь использует её автоматически."

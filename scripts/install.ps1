@@ -2,6 +2,7 @@
 $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$LogName = "install"
 . "$PSScriptRoot\common.ps1"
 
 $ComfyVersion = "0.43.2"
@@ -11,7 +12,8 @@ $ModelFile = Join-Path $Root "models\checkpoints\DreamShaper_8_pruned.safetensor
 
 Step "1/6 Проверяю видеокарту NVIDIA"
 $gpu = Get-Gpu
-Write-Host ("   {0} | {1} МБ видеопамяти | драйвер {2}" -f $gpu.Name, $gpu.VramMb, $gpu.Driver)
+$info = "   {0} | {1} МБ видеопамяти | драйвер {2}" -f $gpu.Name, $gpu.VramMb, $gpu.Driver
+Write-Host $info; Log $info
 if ([double]$gpu.Driver -lt 580) {
     Fail ("Драйвер NVIDIA {0} слишком старый, нужен 580 или новее. Обнови: https://www.nvidia.com/drivers и запусти install.bat снова" -f $gpu.Driver)
 }
@@ -59,12 +61,13 @@ if ((Test-Path $ModelFile) -and ((Get-Item $ModelFile).Length -gt 2000000000)) {
 Step "Проверка: видит ли PyTorch видеокарту"
 foreach ($py in @($ComfyPy, $KohyaPy)) {
     $out = & $py -c "import torch; print(torch.__version__, torch.cuda.is_available(), torch.cuda.get_device_name(0) if torch.cuda.is_available() else '')"
-    Write-Host "   $out"
+    Write-Host "   $out"; Log "   $out"
     if ($out -notmatch "True") { Fail "PyTorch не видит видеокарту ($py)" }
 }
 
 Write-Host ""
 Write-Host "Готово! Дальше:" -ForegroundColor Green
+Log "INSTALL OK"
 Write-Host "  start.bat     - открыть ComfyUI в браузере"
 Write-Host "  generate.bat  - сгенерировать thumbnail'ы из командной строки"
 Write-Host "  train.bat     - обучить свой стиль (LoRA) на картинках из папки dataset"

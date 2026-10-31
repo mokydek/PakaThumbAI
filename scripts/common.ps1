@@ -5,12 +5,19 @@ $ComfyDir = Join-Path $AppDir "ComfyUI"
 $KohyaDir = Join-Path $AppDir "sd-scripts"
 $ComfyPy  = Join-Path $ComfyDir "venv\Scripts\python.exe"
 $KohyaPy  = Join-Path $KohyaDir "venv\Scripts\python.exe"
+New-Item -ItemType Directory -Force $AppDir | Out-Null
+$LogFile  = Join-Path $AppDir "$LogName.log"
 
-function Step($text) { Write-Host ""; Write-Host "== $text" -ForegroundColor Cyan }
+function Log($text) {
+    Add-Content -Path $LogFile -Value ("[{0:yyyy-MM-dd HH:mm:ss}] {1}" -f (Get-Date), $text) -Encoding UTF8
+}
+
+function Step($text) { Write-Host ""; Write-Host "== $text" -ForegroundColor Cyan; Log "== $text" }
 
 function Fail($text) {
     Write-Host ""
     Write-Host "ОШИБКА: $text" -ForegroundColor Red
+    Log "ОШИБКА: $text"
     exit 1
 }
 
