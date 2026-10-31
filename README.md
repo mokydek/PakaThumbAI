@@ -53,7 +53,9 @@ generate.bat "a scared roblox character running from a monster in a dark forest"
 
 ## Обучение своего стиля (LoRA)
 
-1. Положи в папку **`dataset`** 20–50 картинок в нужном стиле (png/jpg/webp), лучше всего свои thumbnail'ы или арты.
+1. Наполни папку **`dataset`** картинками в нужном стиле (png/jpg/webp). Два способа, можно вместе:
+   - **`make_dataset.bat`** сам сгенерирует 120 картинок в стиле Roblox-thumbnails (40 сцен из `config/dataset_prompts.txt` по 3 варианта, на 3050 примерно 40–90 минут). Каждая сохраняется как `gen_001.png` + подпись `gen_001.txt`. Потом открой папку и удали неудачные вместе с их `.txt`: лучше оставить 40–60 хороших, чем 120 средних. Сцены можно менять и дописывать в том же файле. Параметры: `--per-prompt 2` (сколько вариантов на сцену), `--limit 10` (только первые 10 сцен).
+   - Свои thumbnail'ы и скриншоты из своих игр: просто положи их в `dataset`.
 2. Подписи по желанию: рядом с `img1.png` положи `img1.txt` с описанием на английском. Начинай подпись с `pakathumb thumbnail, ...`. Без подписи используется просто `pakathumb thumbnail`.
 3. Запусти **`train.bat`**.
 
@@ -71,12 +73,13 @@ generate.bat "a scared roblox character running from a monster in a dark forest"
 ## Структура
 
 ```
-install.bat / start.bat / generate.bat / train.bat
+install.bat / start.bat / generate.bat / make_dataset.bat / train.bat
 scripts/              скрипты установки и обучения
 tools/generate.py     генератор (работает через API ComfyUI)
+tools/make_dataset.py генератор датасета для обучения
 workflows/            схема генерации для ComfyUI (thumbnail.json - для браузера,
                       thumbnail_api.json - для generate.bat)
-config/               настройки обучения и путей к моделям
+config/               настройки обучения, путей к моделям и сцены для датасета
 dataset/              сюда картинки для обучения
 models/checkpoints/   базовая модель
 models/loras/         твои LoRA

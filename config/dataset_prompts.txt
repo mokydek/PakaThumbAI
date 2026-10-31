@@ -1,0 +1,57 @@
+# Prompts for make_dataset.bat: one scene per line, in English.
+# Each line is generated 3 times (different seeds) -> 40 lines = 120 images.
+# Lines starting with # are skipped.
+
+# --- simulators / satisfying ---
+blocky 3d character pushing a giant hydraulic press over a huge watermelon, juice splashing, shocked face
+blocky 3d character standing on a mountain of gold coins and gems, arms raised, sparkles everywhere
+blocky 3d character holding a glowing legendary sword in a treasure room, golden light rays
+blocky 3d character next to a giant pet egg cracking open with rainbow light, amazed face
+blocky 3d character lifting enormous dumbbells, muscles glowing, gym with neon lights
+blocky 3d character mining a giant glowing crystal with a pickaxe, sparks flying, cave
+blocky 3d character pressing a huge red button, explosion of colorful cubes behind
+blocky 3d character cleaning a dirty driveway with a pressure washer, half clean half dirty, satisfying
+blocky 3d character pouring fresh black asphalt with a squeegee, glossy wet surface, sunny day
+blocky 3d character shrinking under a giant magnifying glass, surprised face, bright colors
+
+# --- tycoon / building ---
+blocky 3d character in front of a huge futuristic factory with conveyor belts, money flying
+blocky 3d character building a giant castle from colorful blocks, crane and tools around
+blocky 3d character as a chef in a busy restaurant kitchen, flaming pan, excited face
+blocky 3d character owning a big pizza shop, giant pizza sign, cheerful crowd
+blocky 3d character with a row of supercars in a shiny garage, neon lights
+
+# --- adventure / travel ---
+blocky 3d character driving an old rusty car on an endless desert road, sunset, dust clouds
+blocky 3d character steering a small wooden boat on a stormy ocean, huge waves, lightning
+blocky 3d character flying a small plane above the clouds, golden sunrise
+blocky 3d character on a raft with a shark fin nearby, tropical sea, worried face
+blocky 3d character exploring a jungle temple, glowing ancient door, vines
+blocky 3d character with a rocket backpack flying over a floating island, waterfalls
+
+# --- obby / parkour ---
+blocky 3d character jumping across floating neon platforms over lava, motion blur
+blocky 3d character running on a giant rainbow tower obstacle course, sky background
+blocky 3d character sliding down a huge water slide into a pool, splash, summer
+blocky 3d character escaping a giant rolling boulder in a corridor, scared face
+
+# --- horror (no blood, no gore) ---
+blocky 3d character with a flashlight in a dark foggy forest, tall shadowy figure far behind, eerie blue light
+blocky 3d character hiding in a dark school hallway, flickering lights, scared face
+blocky 3d character holding a lantern in front of an old haunted mansion, full moon, purple sky
+blocky 3d character running from a giant shadow monster through a dark corridor, red glowing eyes
+blocky 3d character in a creepy abandoned amusement park at night, foggy, spooky glow
+
+# --- fighting / sports ---
+two blocky 3d boxers in a boxing ring facing each other, spotlights, intense faces
+blocky 3d character landing a powerful punch, impact shockwave, arena crowd
+blocky 3d character casting a fireball spell, magic circle glowing, fantasy arena
+two blocky 3d wizards dueling with blue and orange magic beams, sparks
+blocky 3d character holding a ticking cartoon bomb, panicked face, colorful arena
+blocky 3d character dribbling a basketball with flames, street court, dynamic angle
+blocky 3d character scoring a soccer goal, ball glowing, stadium lights
+
+# --- underwater / creatures ---
+blocky 3d character diving underwater next to a giant glowing jellyfish, coral reef
+blocky 3d character catching a huge legendary fish on a pier, splashing water, excited face
+blocky 3d character riding a friendly dragon over a volcano, epic sky
