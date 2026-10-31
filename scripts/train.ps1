@@ -1,8 +1,10 @@
 ﻿# PakaThumbAI - обучение своей LoRA на картинках из папки dataset
 # train.bat -Dataset dataset_horror -Name pakahorror  -> другая папка и имя LoRA
+# train.bat -Epochs 6                                -> другое число эпох (по умолчанию 10)
 param(
     [string]$Dataset = "dataset",
     [string]$Name = "pakathumb",
+    [int]$Epochs = 0,
     [Parameter(ValueFromRemainingArguments = $true)] $Rest
 )
 $ErrorActionPreference = "Stop"
@@ -38,7 +40,8 @@ if ($gpu.VramMb -lt 6000) {
     $extra += @("--network_train_unet_only", "--network_dim", "16", "--network_alpha", "8")
 }
 
-$steps = $images.Count * 10 * 10
+if ($Epochs -gt 0) { $extra += @("--max_train_epochs", "$Epochs") } else { $Epochs = 10 }
+$steps = $images.Count * 10 * $Epochs
 Step ("Обучение: {0} картинок, ~{1} шагов, {2} ({3} МБ)" -f $images.Count, $steps, $gpu.Name, $gpu.VramMb)
 Write-Host "   Результат: models\loras\$Name.safetensors (промежуточные - каждые 2 эпохи)"
 

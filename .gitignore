@@ -12,3 +12,4 @@ dataset/*
 __pycache__/
 dataset_horror/
 dataset_extra/
+dataset_noob/

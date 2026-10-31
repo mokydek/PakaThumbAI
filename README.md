@@ -66,6 +66,15 @@ generate.bat "a scared roblox character running from a monster in a dark forest"
 
 Настройки обучения лежат в `config/train_lora.toml` и `config/dataset.toml`.
 
+### Нубик (LoRA `pakanoob`)
+
+Классический roblox-нубик: жёлтая голова и руки, синий торс, зелёные ноги, улыбка. Датасет — 3D-рендеры модели, собранной из блоков в Blender (`tools/noob`): разные позы, ракурсы и фоны.
+
+```bat
+train.bat -Dataset dataset_noob -Name pakanoob -Epochs 6
+generate.bat "roblox noob character running from a monster in a dark forest" --lora pakanoob --style horror
+```
+
 ### Хоррор-LoRA (Roblox horror)
 
 Отдельная LoRA `pakahorror` под хоррор-thumbnail'ы в roblox-стиле: тёмный кадр с одним источником света, бледный монстр крупно в кадре (выглядывает из-за двери, ползёт по коридору), зерно, виньетка, приглушённые цвета с красным акцентом. Без крови и жестокости.
