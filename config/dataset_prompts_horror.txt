@@ -6,7 +6,7 @@
 
 prefix: (roblox character:1.3),
 style: horror
-negative: lego, minifigure, minecraft, realistic human, photo of a person, blood, gore, wound
+negative: lego, minifigure, minecraft, realistic human, photo of a person, blood, gore, wound, black and white, monochrome
 
 tall pale blocky roblox monster peeking from behind a half-open door, long thin fingers gripping the door edge, dark bedroom, cold gray light
 blocky roblox avatar character frozen in fear in a dark hallway, pale blocky creature with huge round eyes and a wide grin close to the camera

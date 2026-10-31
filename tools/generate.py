@@ -30,7 +30,8 @@ STYLES = {
     "default": ("youtube thumbnail, vibrant saturated colors, high contrast, dramatic lighting, "
                 "bold composition, sharp focus, highly detailed, 3d render"),
     "horror": ("roblox horror game thumbnail, dark, low key lighting, single dim light source, "
-               "high contrast, film grain, vignette, eerie atmosphere, desaturated colors, 3d render"),
+               "high contrast, film grain, vignette, eerie atmosphere, muted colors with a red accent, "
+               "cinematic, 3d render"),
     "none": "",
 }
 STYLE = STYLES["default"]
