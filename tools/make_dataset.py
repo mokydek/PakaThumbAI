@@ -16,6 +16,10 @@ import generate as g  # noqa: E402
 
 PROMPTS = os.path.join(g.ROOT, "config", "dataset_prompts.txt")
 DATASET = os.path.join(g.ROOT, "dataset")
+# style anchor for SD 1.5: without it the model often drops the character
+STYLE_PREFIX = "(roblox character:1.3), "
+# keep other brands' toy/game looks out of the dataset
+NEGATIVE = "lego, minifigure, minecraft"
 
 
 def load_prompts():
@@ -28,6 +32,7 @@ def main():
     p.add_argument("--per-prompt", type=int, default=3, help="картинок на каждый промпт (3)")
     p.add_argument("--limit", type=int, default=0, help="взять только первые N промптов")
     p.add_argument("--seed", type=int, default=None)
+    p.add_argument("--prefix", default="gen", help="начало имени файлов (gen)")
     a = p.parse_args()
 
     prompts = load_prompts()
@@ -35,8 +40,9 @@ def main():
         prompts = prompts[:a.limit]
     total = len(prompts) * a.per_prompt
     os.makedirs(DATASET, exist_ok=True)
-    existing = [f for f in os.listdir(DATASET) if f.startswith("gen_") and f.endswith(".png")]
-    start = max([int(f[4:-4]) for f in existing if f[4:-4].isdigit()] + [0]) + 1
+    pre = a.prefix + "_"
+    existing = [f[len(pre):-4] for f in os.listdir(DATASET) if f.startswith(pre) and f.endswith(".png")]
+    start = max([int(x) for x in existing if x.isdigit()] + [0]) + 1
 
     g.ensure_comfy()
     with open(g.WORKFLOW, encoding="utf-8") as f:
@@ -49,9 +55,9 @@ def main():
     t0, n = time.time(), 0
     for prompt in prompts:
         for _ in range(a.per_prompt):
-            wf = g.build(base, prompt, None, 0, seed + n, 25, 6.5, "youtube", "")
+            wf = g.build(base, STYLE_PREFIX + prompt, None, 0, seed + n, 25, 6.5, "youtube", NEGATIVE)
             out = g.run(wf)
-            name = f"gen_{start + n:03d}"
+            name = f"{pre}{start + n:03d}"
             shutil.move(out[0], os.path.join(DATASET, name + ".png"))
             with open(os.path.join(DATASET, name + ".txt"), "w", encoding="utf-8") as f:
                 f.write(f"{g.TRIGGER}, {prompt}")
