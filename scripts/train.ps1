@@ -34,13 +34,12 @@ $steps = $images.Count * 10 * 10
 Step ("Обучение: {0} картинок, ~{1} шагов, {2} ({3} МБ)" -f $images.Count, $steps, $gpu.Name, $gpu.VramMb)
 Write-Host "   Результат: models\loras\pakathumb.safetensors (промежуточные - каждые 2 эпохи)"
 
-# вывод обучения идёт и в окно, и в app\train.log
-$ErrorActionPreference = "Continue"
-& $KohyaPy (Join-Path $KohyaDir "train_network.py") --config_file (Join-Path $Root "config\train_lora.toml") @extra @args 2>&1 |
-    ForEach-Object { "$_" } | Tee-Object -FilePath $LogFile -Append
-$code = $LASTEXITCODE
-$ErrorActionPreference = "Stop"
-if ($code -ne 0) { Fail "обучение LoRA (подробности в app\train.log)" }
+# прогресс - в окне, сообщения обучения - в app\train_python.log
+$env:PYTHONUTF8 = "1"
+$env:PYTHONIOENCODING = "utf-8"
+$pyLog = Join-Path $AppDir "train_python.log"
+& $KohyaPy (Join-Path $KohyaDir "train_network.py") --config_file (Join-Path $Root "config\train_lora.toml") --console_log_file $pyLog @extra @args
+Check "обучение LoRA (подробности в app\train_python.log)"
 
 Write-Host ""
 Write-Host "Готово! LoRA сохранена в models\loras\pakathumb.safetensors" -ForegroundColor Green
