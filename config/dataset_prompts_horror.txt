@@ -1,0 +1,40 @@
+# Roblox horror scenes for make_dataset (horror LoRA "pakahorror").
+# Style taken from horror thumbnail references: one creature close to camera,
+# wide empty eyes / wide grin, peeking from doors or down corridors, low-key
+# light from a single source, grain, vignette, muted colors with a red accent.
+# No blood, no gore (Roblox Community Standards). Titles/text are added later by hand.
+
+prefix: (roblox character:1.3),
+style: horror
+negative: lego, minifigure, minecraft, realistic human, photo of a person, blood, gore, wound
+
+tall pale blocky roblox monster peeking from behind a half-open door, long thin fingers gripping the door edge, dark bedroom, cold gray light
+blocky roblox avatar character frozen in fear in a dark hallway, pale blocky creature with huge round eyes and a wide grin close to the camera
+long-limbed pale blocky creature crawling down the aisle of an old train carriage toward the camera, dim warm lamps, symmetrical perspective
+grainy black and white photo of an old blocky roblox mannequin robot with hollow round eyes, pure black background, halftone texture
+blocky roblox avatar character with a flashlight, a pale face with hollow eyes appearing in the window behind, night, rain
+dark basement stairs, blocky roblox monster with glowing white eyes at the bottom, single hanging light bulb
+blocky roblox avatar hiding under a bed, pale blocky hand reaching out of the shadows, dark bedroom, moonlight
+abandoned roblox school corridor, flickering lights, tall shadowy figure with a smiling white mask at the far end
+blocky roblox avatar character looking into a bathroom mirror, the reflection shows a creepy smiling blocky face behind
+dark forest at night, tall thin blocky creature with a pale round face standing between the trees, fog, faint red light
+elevator doors opening, pale blocky creature with huge eyes inside, cold fluorescent light, blocky roblox avatar backing away
+old wooden door slightly open, two glowing round eyes in the darkness behind it, dust in a beam of light
+blocky roblox avatar character running through a dark corridor, giant pale blocky hand reaching from behind, motion blur
+abandoned amusement park at night, creepy blocky clown animatronic with a cracked white face, single spotlight
+close-up of a pale blocky creature face with wide empty eyes and a stitched grin, dark sepia tones, vignette
+blocky roblox avatar holding a candle in a dark attic, long shadow of a horned creature on the wall
+dark subway platform, blocky roblox monster crawling on the ceiling, blocky roblox avatar unaware below
+old hospital room, blocky roblox avatar in bed, tall pale blocky figure standing in the doorway, green fluorescent light
+snowy cabin at night, pale blocky face pressed against a frosted window, blocky roblox avatar inside by the fireplace
+dark library aisle, long-armed pale blocky creature peeking around a bookshelf
+blocky roblox avatar crouching behind a kitchen counter, creepy blocky creature with its jaw wide open searching the room, dim light
+foggy cemetery, blocky roblox avatar with a lantern, pale blocky figures standing in the background, moonlight
+grainy security camera view, pale blocky creature standing in an empty office corridor
+narrow vent shaft, blocky roblox avatar crawling, a pair of glowing eyes ahead in the darkness
+dark doll room, rows of blocky dolls with blank white faces, one doll turned toward the camera
+blocky roblox avatar opening a fridge at night, pale blocky creature hiding behind the fridge door, cold blue light
+old train station at night, thin pale blocky creature on all fours on the tracks, red signal light
+endless yellow office hallway, blocky roblox avatar alone, distorted tall pale figure far behind
+blocky roblox avatar with a flashlight in a flooded basement, pale blocky face just above the dark water
+tall blocky shadow monster with glowing red eyes looming over a small roblox house at night, lightning

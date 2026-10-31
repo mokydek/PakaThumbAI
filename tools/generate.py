@@ -26,8 +26,14 @@ HOST, PORT = "127.0.0.1", 8188
 URL = f"http://{HOST}:{PORT}"
 
 TRIGGER = "pakathumb thumbnail"
-STYLE = ("youtube thumbnail, vibrant saturated colors, high contrast, dramatic lighting, "
-         "bold composition, sharp focus, highly detailed, 3d render")
+STYLES = {
+    "default": ("youtube thumbnail, vibrant saturated colors, high contrast, dramatic lighting, "
+                "bold composition, sharp focus, highly detailed, 3d render"),
+    "horror": ("roblox horror game thumbnail, dark, low key lighting, single dim light source, "
+               "high contrast, film grain, vignette, eerie atmosphere, desaturated colors, 3d render"),
+    "none": "",
+}
+STYLE = STYLES["default"]
 SIZES = {
     # name: (base pass, hires pass, final image)
     "youtube": ((768, 432), (1280, 720), (1280, 720)),
@@ -88,12 +94,12 @@ def available(node, field):
     return info[node]["input"]["required"][field][0]
 
 
-def build(base, prompt, lora, strength, seed, steps, cfg, size, negative):
+def build(base, prompt, lora, strength, seed, steps, cfg, size, negative, style=STYLE):
     wf = copy.deepcopy(base)
     (bw, bh), (hw, hh), (fw, fh) = SIZES[size]
     if lora:
         wf["2"]["inputs"].update(lora_name=lora, strength_model=strength, strength_clip=strength)
-        text = f"{TRIGGER}, {prompt}, {STYLE}"
+        text = f"{TRIGGER}, {prompt}"
     else:
         # no LoRA: wire everything straight to the checkpoint
         del wf["2"]
@@ -101,7 +107,9 @@ def build(base, prompt, lora, strength, seed, steps, cfg, size, negative):
             wf[nid]["inputs"]["clip"] = ["1", 1]
         for nid in ("6", "8"):
             wf[nid]["inputs"]["model"] = ["1", 0]
-        text = f"{prompt}, {STYLE}"
+        text = prompt
+    if style:
+        text += ", " + style
     wf["3"]["inputs"]["text"] = text
     if negative:
         wf["4"]["inputs"]["text"] += ", " + negative
@@ -155,6 +163,7 @@ def main():
     p.add_argument("--steps", type=int, default=25)
     p.add_argument("--cfg", type=float, default=6.5)
     p.add_argument("--negative", default="", help="что добавить в негативный промпт")
+    p.add_argument("--style", choices=STYLES, default="default", help="default / horror / none")
     a = p.parse_args()
 
     ensure_comfy()
@@ -177,7 +186,8 @@ def main():
 
     seed = a.seed if a.seed is not None else random.randint(0, 2**32 - 1)
     for i in range(a.count):
-        wf = build(base, a.prompt, lora, a.strength, seed + i, a.steps, a.cfg, a.size, a.negative)
+        wf = build(base, a.prompt, lora, a.strength, seed + i, a.steps, a.cfg, a.size, a.negative,
+                   STYLES[a.style])
         t = time.time()
         for path in run(wf):
             print(f"[{i + 1}/{a.count}] seed {seed + i} -> {path} ({time.time() - t:.0f} c)")

@@ -44,6 +44,7 @@ generate.bat "a scared roblox character running from a monster in a dark forest"
 | `--seed` | зерно (одинаковое = одинаковая картинка) | случайное |
 | `--steps` / `--cfg` | шаги и «послушность» промпту | 25 / 6.5 |
 | `--negative` | что ещё убрать из картинки | — |
+| `--style` | `default` (яркий), `horror` (тёмный хоррор), `none` | default |
 
 Картинки сохраняются в папку **`outputs`**. Если ComfyUI не запущен, `generate.bat` сам поднимет его в фоне и оставит работать, поэтому следующие генерации идут быстрее. `train.bat` перед обучением сам закрывает ComfyUI, чтобы освободить видеопамять.
 
@@ -64,6 +65,18 @@ generate.bat "a scared roblox character running from a monster in a dark forest"
 Время: 30 картинок дают ~3000 шагов, на RTX 3050 это примерно 20–40 минут. На картах с 4 ГБ скрипт сам включает облегчённый режим (учится только U-Net, LoRA меньше).
 
 Настройки обучения лежат в `config/train_lora.toml` и `config/dataset.toml`.
+
+### Хоррор-LoRA (Roblox horror)
+
+Отдельная LoRA `pakahorror` под хоррор-thumbnail'ы в roblox-стиле: тёмный кадр с одним источником света, бледный монстр крупно в кадре (выглядывает из-за двери, ползёт по коридору), зерно, виньетка, приглушённые цвета с красным акцентом. Без крови и жестокости.
+
+```bat
+app\ComfyUI\venv\Scripts\python.exe tools\make_dataset.py --prompts config\dataset_prompts_horror.txt --out dataset_horror --prefix hor
+train.bat -Dataset dataset_horror -Name pakahorror
+generate.bat "pale blocky roblox monster peeking from behind a door" --lora pakahorror --style horror
+```
+
+`--style horror` меняет стиль промпта на хоррор (по умолчанию стоит яркий `default`). Сцены и настройки стиля лежат в `config/dataset_prompts_horror.txt`: строки `prefix:`, `style:`, `negative:` в начале файла.
 
 ## Правила
 

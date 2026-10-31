@@ -10,3 +10,5 @@ dataset/*
 !dataset/.gitkeep
 *.npz
 __pycache__/
+dataset_horror/
+dataset_extra/
