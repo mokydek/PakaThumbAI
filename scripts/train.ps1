@@ -1,10 +1,14 @@
 ﻿# PakaThumbAI - обучение своей LoRA на картинках из папки dataset
 # train.bat -Dataset dataset_horror -Name pakahorror  -> другая папка и имя LoRA
 # train.bat -Epochs 6                                -> другое число эпох (по умолчанию 10)
+# train.bat -Repeats 1                               -> сколько раз каждая картинка за эпоху (по умолчанию 10)
+# train.bat -InitFrom pakaroblox                     -> дообучить поверх уже готовой LoRA
 param(
     [string]$Dataset = "dataset",
     [string]$Name = "pakathumb",
     [int]$Epochs = 0,
+    [int]$Repeats = 10,
+    [string]$InitFrom = "",
     [Parameter(ValueFromRemainingArguments = $true)] $Rest
 )
 $ErrorActionPreference = "Stop"
@@ -53,8 +57,16 @@ if ($gpu.VramMb -lt 6000) {
     $extra += @("--network_train_unet_only", "--network_dim", "16", "--network_alpha", "8")
 }
 
+if ($InitFrom) {
+    $init = Join-Path $Root "models\loras\$InitFrom.safetensors"
+    if (-not (Test-Path $init)) { Fail "Нет LoRA $InitFrom для дообучения" }
+    # копия, чтобы не читать файл, который это же обучение перезапишет
+    $initCopy = Join-Path $AppDir "init_$InitFrom.safetensors"
+    Copy-Item $init $initCopy -Force
+    $extra += @("--network_weights", $initCopy)
+}
 if ($Epochs -gt 0) { $extra += @("--max_train_epochs", "$Epochs") } else { $Epochs = 10 }
-$steps = $images.Count * 10 * $Epochs
+$steps = $images.Count * $Repeats * $Epochs
 Step ("Обучение: {0} картинок, ~{1} шагов, {2} ({3} МБ)" -f $images.Count, $steps, $gpu.Name, $gpu.VramMb)
 Write-Host "   Результат: models\loras\$Name.safetensors (промежуточные - каждые 2 эпохи)"
 
@@ -62,6 +74,7 @@ Write-Host "   Результат: models\loras\$Name.safetensors (промеж�
 $dsConfig = Join-Path $AppDir "dataset_$Name.toml"
 $tpl = Get-Content (Join-Path $Root "config\dataset.toml") -Raw -Encoding UTF8
 $tpl = $tpl.Replace('image_dir = "dataset"', ('image_dir = "{0}"' -f ($Dataset -replace "\\", "/")))
+$tpl = $tpl -replace 'num_repeats = \d+', "num_repeats = $Repeats"
 [IO.File]::WriteAllText($dsConfig, $tpl)
 
 # прогресс - в окне, сообщения обучения - в app\train_python.log

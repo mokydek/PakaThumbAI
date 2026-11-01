@@ -51,6 +51,8 @@ def main():
     p.add_argument("--prefix", default="gen", help="начало имени файлов (gen)")
     p.add_argument("--prompts", default=PROMPTS, help="файл со сценами (config/dataset_prompts.txt)")
     p.add_argument("--out", default=DATASET, help="папка датасета (dataset)")
+    p.add_argument("--lora", default="none", help="LoRA для генерации (none / имя из models/loras)")
+    p.add_argument("--strength", type=float, default=0.8)
     a = p.parse_args()
 
     prompts, opts = load_prompts(a.prompts)
@@ -63,18 +65,24 @@ def main():
     existing = [f[len(pre):-4] for f in os.listdir(out_dir) if f.startswith(pre) and f.endswith(".png")]
     start = max([int(x) for x in existing if x.isdigit()] + [0]) + 1
 
+    g.keep_awake()
     g.ensure_comfy()
     with open(g.WORKFLOW, encoding="utf-8") as f:
         base = json.load(f)
     if base["1"]["inputs"]["ckpt_name"] not in g.available("CheckpointLoaderSimple", "ckpt_name"):
         sys.exit("Нет базовой модели в models/checkpoints. Запусти install.bat ещё раз")
 
+    lora = None
+    if a.lora != "none":
+        lora = a.lora if a.lora.endswith(".safetensors") else a.lora + ".safetensors"
+        if lora not in g.available("LoraLoader", "lora_name"):
+            sys.exit(f"LoRA {lora} не найдена")
     print(f"Промптов: {len(prompts)} x {a.per_prompt} = {total} картинок -> {out_dir}")
     seed = a.seed if a.seed is not None else random.randint(0, 2**32 - 1)
     t0, n = time.time(), 0
     for prompt in prompts:
         for _ in range(a.per_prompt):
-            wf = g.build(base, opts["prefix"] + prompt, None, 0, seed + n, 25, 6.5, "youtube",
+            wf = g.build(base, opts["prefix"] + prompt, lora, a.strength, seed + n, 25, 6.5, "youtube",
                          opts["negative"], opts["style"])
             out = g.run(wf)
             name = f"{pre}{start + n:03d}"

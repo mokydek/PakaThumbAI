@@ -43,6 +43,13 @@ SIZES = {
 DEFAULT_LORA = "pakathumb.safetensors"
 
 
+def keep_awake():
+    """Windows: don't go to sleep while generating (reset automatically when the process exits)."""
+    if os.name == "nt":
+        import ctypes
+        ctypes.windll.kernel32.SetThreadExecutionState(0x80000001)
+
+
 def comfy_args():
     args = [
         os.path.join(COMFY_DIR, "main.py"),
@@ -167,6 +174,7 @@ def main():
     p.add_argument("--style", choices=STYLES, default="default", help="default / horror / none")
     a = p.parse_args()
 
+    keep_awake()
     ensure_comfy()
 
     ckpts = available("CheckpointLoaderSimple", "ckpt_name")

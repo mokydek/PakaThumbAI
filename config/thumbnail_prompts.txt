@@ -1,0 +1,59 @@
+# Roblox thumbnail scenes for the self-training loop (make_dataset --lora pakaroblox).
+# Characters are described the way the avatar renders are captioned, so the LoRA
+# keeps in-game anatomy while the scene teaches the thumbnail style.
+# No blood, no gore, no real brands (Roblox Community Standards).
+
+prefix: roblox character,
+style: default
+negative: lego, minifigure, minecraft, realistic human, anime, extra limbs, deformed body, text, watermark
+
+blocky roblox avatar with a red shirt running away from a giant rolling boulder, shocked face, dust clouds
+blocky roblox avatar standing on a huge mountain of gold coins and gems, arms raised, sparkles
+blocky roblox avatar pushing a giant red button, big explosion of colorful cubes behind
+two blocky roblox avatars racing on a rainbow obby course over lava
+blocky roblox avatar riding a small speedboat through huge ocean waves, splashing water
+blocky roblox avatar holding a glowing legendary sword in a treasure room, golden light
+blocky roblox avatar next to a giant cracking pet egg with rainbow light, amazed face
+blocky roblox avatar lifting giant dumbbells in a neon gym, muscles flexing
+blocky roblox avatar falling from the sky with a parachute over a blocky island
+blocky roblox avatar driving an old rusty car on a desert road at sunset
+blocky roblox avatar with a flashlight in a dark forest, a tall shadowy figure behind
+blocky roblox avatar in a boxing ring throwing a punch, spotlights, crowd
+two blocky roblox avatars facing each other in a boxing ring, intense faces
+blocky roblox avatar casting a blue magic spell, glowing magic circle, fantasy arena
+blocky roblox avatar holding a ticking cartoon bomb, panicked face, colorful arena
+blocky roblox avatar as a chef in a busy kitchen, flaming pan, excited face
+blocky roblox avatar building a huge castle from colorful blocks
+blocky roblox avatar mining a giant glowing crystal with a pickaxe, sparks in a cave
+blocky roblox avatar escaping a huge tsunami wave on a blocky beach
+blocky roblox avatar riding a friendly dragon over a volcano
+blocky roblox avatar diving underwater next to a giant glowing jellyfish
+blocky roblox avatar catching a huge legendary fish on a wooden pier
+blocky roblox avatar sliding down a giant water slide, splash, summer
+blocky roblox avatar standing in front of a giant hydraulic press crushing a car, sparks
+blocky roblox avatar cleaning a dirty driveway with a pressure washer, half clean half dirty
+blocky roblox avatar spreading glossy black asphalt with a squeegee, sunny day
+blocky roblox avatar flying a small plane above the clouds, golden sunrise
+blocky roblox avatar opening a glowing treasure chest, light rays, coins flying
+three blocky roblox avatars celebrating on a podium with a trophy, confetti
+blocky roblox avatar jumping across floating platforms in the sky, rainbow
+blocky roblox avatar running from a giant blocky zombie in a city at night
+blocky roblox avatar hiding behind a wall during a paintball battle, colorful splashes
+blocky roblox avatar surfing a huge wave, bright sunny sky
+blocky roblox avatar in a space suit floating next to a blocky planet
+blocky roblox avatar with a jetpack flying through a futuristic city
+blocky roblox avatar in a tycoon factory with conveyor belts and money flying
+blocky roblox avatar shrinking next to a giant magnifying glass, surprised face
+blocky roblox avatar stuck in a giant spider web in a dark cave, scared face
+blocky roblox avatar dribbling a flaming basketball on a street court
+blocky roblox avatar scoring a soccer goal in a glowing stadium
+blocky roblox avatar ice skating on a frozen lake, snowy mountains
+blocky roblox avatar climbing a giant tower, looking down, dramatic height
+blocky roblox avatar sneaking past a sleeping blocky guard dog
+blocky roblox avatar on a roller coaster at the top of a huge drop, screaming
+blocky roblox avatar exploring an ancient jungle temple with a torch
+blocky roblox avatar winning a giant golden trophy, fireworks
+blocky roblox avatar crashing a go-kart into a pile of cones
+blocky roblox avatar in a haunted house, ghost peeking from a door
+blocky roblox avatar holding a giant ice cream cone, happy face, candy world
+blocky roblox avatar being chased by a giant blocky shark on a raft
